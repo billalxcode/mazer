@@ -1,11 +1,11 @@
-import { defineConfig, normalizePath, build } from 'vite'
-import fs from 'fs'
-import path, { resolve } from 'path'
+import fs from 'fs';
+import path, { resolve } from 'path';
 import { fileURLToPath } from 'url';
-import nunjucks from 'vite-plugin-nunjucks'
+import { build, defineConfig, normalizePath } from 'vite';
+import nunjucks from 'vite-plugin-nunjucks';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import sidebarItems from "./src/sidebar-items.json"
-import horizontalMenuItems from "./src/horizontal-menu-items.json"
+import horizontalMenuItems from "./src/horizontal-menu-items.json";
+import sidebarItems from "./src/sidebar-items.json";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +19,11 @@ const getFiles = () => {
         .filter(filename => filename.endsWith('.html'))
         .forEach(filename => {
             files[filename.slice(0, -5)] = resolve(root, filename)
+        })
+    fs.readdirSync(path.join(root, "themes"))
+        .filter(filename => filename.endsWith('.html'))
+        .forEach(filename => {
+            files[filename.slice(0, -5)] = resolve(path.join(root, 'themes', filename))
         })
     return files
 }
